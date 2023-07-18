@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>New Recipe</title>
+</head>
+<body>
+    <div id="container">
+    <h1 class="text-center">Recipe Share</h1>
+        <div id="main_form" class="d-flex">
+            <div class="bg-dark col-5 border-2 rounded mt-4 mx-auto my-auto">
+                <h2 class="text-center text-warning my-auto mx-auto mt-3">Add New Recipe</h2>
+                <form action="/recipes/create" method="post">
+                    <div class="mb-3 col-8 my-auto mx-auto">
+                        <label for="name" class="text-white form-label">Name:</label>
+                        <input type="text" name="name" class="form-control">
+                    </div>
+                    <div class="mb-3 col-8 my-auto mx-auto">
+                        <label for="description" class="text-white form-label">Description:</label>
+                        <textarea type="text" name="description" rows="2" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3 col-8 my-auto mx-auto text-white">
+                        <label for="instructions" class="text-white my-2 form-label">Instructions:</label>
+                        <textarea type="email" name="instructions" rows="10" class="text-dark form-control my-auto mx-auto"></textarea>
+                    </div>
+                    <div class="mb-3 col-8 my-auto mx-auto text-white">
+                        <div class="form-group">
+                            <label for="date_made" class="text-white my-2 form-label">Date Made On:</label>
+                            <input type='date' class="form-control" name="created_date" id="created_date">
+                        </div>
+                        <p class="text-white form-label mt-2">Under 30min?</p>
+                        <div class="form-check-inline">
+                            <input type="radio" name="under_30" value="1" class="form-check-input">
+                            <label for="under_30_yes" class="form-label">Yes</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="radio" name="under_30" value="0" class="form-check-input" >
+                            <label for="under_30_no" class="form-label">No</label>
+                        </div>
+                        <div class="col-10 d-flex justify-content-center my-auto mx-auto mt-5">
+                            <input type="submit" value="Create" class="btn btn-primary m-3"></input>
+                            <a href="/recipes" class="btn btn-secondary m-3">Home</a>
+                            <a href="/logout" class="btn btn-danger m-3">Log Out</a>
+                        </div>
+                        <div class="text-center text-danger">
+                            {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                                {% if messages %}                            <!-- check if there are any messages -->
+                                    {% for message in messages %}            <!-- loop through the messages -->
+                                        <p class="text-danger">{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

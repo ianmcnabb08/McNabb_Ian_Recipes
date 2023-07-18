@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>All Recipes</title>
+</head>
+<body class="bg-dark-subtle">
+    <h1 class="text-center text-primary">Welcome, {{session['first_name']}}!!</h1>
+    <div class="col-10 text-end">
+        <a href="/recipes/new" class="btn btn-primary text-center col-1 flex-wrap">+ New Recipe</a>
+        <a href="/logout" class="btn btn-outline-danger text-center col-1 flex-wrap">Log Out</a>
+    </div>
+    <div class="text-center">
+        <h1 class="text-start m-3">Recipes</h1>
+        <table class="table table-hover table-striped table-dark">
+            <thead class="text-dark-emphasis">
+                <th>Name</th>
+                <th>Under 30 Minutes?</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <td>{{ recipe.name }}</td>
+                    <td>
+                    {% if recipe.under_30 == 1 %}
+                        Yes
+                    {%else%}
+                        No
+                    {%endif%}
+                    </td>
+                    <td>{{ recipe.creator.first_name }}</td>
+                    <td>
+                        <a href="/recipes/view/{{recipe.id}}" class="btn btn-success">View Recipe</a>
+                        {% if session['user_id'] == recipe.creator.id %}
+                        <a href="/recipes/edit/{{recipe.id}}" class="btn btn-secondary">Edit</a>
+                        <a href="/recipes/delete/{{recipe.id}}" class="btn btn-danger">Delete</a>
+                        {%endif%}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
