@@ -82,4 +82,17 @@ class User:
             flash("Passwords do not match")
             is_valid = False
         return is_valid
+    
+    @staticmethod
+    def validate_login(form_data):
+        is_valid = True
+        if not EMAIL_REGEX.match(form_data['email']):
+            flash("Invalid Email/Password")
+            is_valid = False
 
+        if len(form_data['password']) < 8:
+            flash("Password MUST be at least 8 characters in length.")
+            is_valid = False
+
+
+        return is_valid

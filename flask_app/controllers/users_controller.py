@@ -12,31 +12,32 @@ def home():
 def new_user():
     if not User.validate_user(request.form):
         return redirect('/')
-    pw_hash = bcrypt.generate_password_hash(request.form['password'])
-    print(pw_hash)
-    data = {
-        "first_name": request.form['first_name'],
-        "last_name": request.form['last_name'],
-        "email": request.form['email'],
-        "password": pw_hash
-    }
-    user_id = User.save(data)
+    
+    user_id = User.save(request.form)
+
     session['user_id'] = user_id
     session['first_name'] = request.form['first_name']
     return redirect('/recipes')
 
 
-@app.route('/login', methods = ['POST'])
+@app.route('/login', methods = ['GET','POST'])
 def login():
+
+    if not User.validate_login(request.form):
+        return redirect('/')
+        
     user_in_db = User.find_user_by_email(request.form)
 
-    if not user_in_db and not bcrypt.check_password_hash(user_in_db.password, request.form['password']):
-        flash("Invalid Email")
-        print("ITS THE EMAIL")
-        return redirect("/")
+    if not user_in_db:
+        flash("Invalid Email or Password")
+        return redirect('/')
     
-    print(user_in_db.password)
-    print(request.form['password'])
+    if not bcrypt.check_password_hash(user_in_db.password, request.form['password']):
+        flash("Invalid Email or Password")
+        print("USER'S PASSWORD", user_in_db.password)
+        print("FORM PASSWORD ------>", request.form['password'])
+        return redirect('/')
+        
     session['user_id'] = user_in_db.id
     session['first_name'] = user_in_db.first_name
     return redirect("/recipes")
